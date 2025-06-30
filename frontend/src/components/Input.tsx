@@ -1,18 +1,23 @@
 interface InputProps {
-    id?: string;
-    placeholder?: string;
-    type?: string;
-    className?: string;
+  placeholder?: string;
+  type?: string;
+  className?: string;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  value?: string | number;
+  name?: string;
 }
 
-function Input({ id, placeholder, type, className}: InputProps) {
-    return (
-        <input 
-            type={type || "text"} 
-            id={id} 
-            className={className}
-            placeholder={placeholder || "Digite aqui..."} 
-        />
-    )
+function Input({ placeholder, type, className, onChange, value, name }: InputProps) {
+  return (
+    <input
+      type={type || "text"}
+      name={name}
+      className={className}
+      placeholder={placeholder || "Digite aqui..."}
+      value={value}
+      onChange={onChange}
+    />
+  );
 }
+
 export default Input;

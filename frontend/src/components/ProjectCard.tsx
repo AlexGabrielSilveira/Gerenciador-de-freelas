@@ -1,11 +1,11 @@
 
 import Button from "./Button";
 enum ProjectStatus {
-    working = 'working',
-    paid = 'paid',
-    canceled = 'canceled',
-    started = 'started',
-    finished = 'finished'
+  started = 'started',
+  working = 'working',
+  completed = 'completed',
+  canceled = 'canceled',
+  finished = 'finished'
 }
 interface ProjectProps {
     name: string;
@@ -26,7 +26,7 @@ function ProjectCard({ name, client, status, hourlyRate, timeWorked }: ProjectPr
         <span className={`text-xs font-semibold px-3 py-1 rounded-full ${
             status === 'working'
               ? 'bg-yellow-500/20 text-yellow-400'
-              : status === 'paid'
+              : status === 'completed'
               ? 'bg-green-500/20 text-green-400'
               : status === 'canceled'
               ? 'bg-red-500/20 text-red-400'

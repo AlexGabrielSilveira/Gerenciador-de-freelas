@@ -3,7 +3,6 @@ import './App.css';
 import Button from './components/Button';
 import Header from './components/Header';
 import ProjectFormModal from './components/ProjectFormModal';
-import ProjectCard from './components/ProjectCard';
 
 function App() {
   const [projectForm, setProjectForm] = useState<boolean>(false)
