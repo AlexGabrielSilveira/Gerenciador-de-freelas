@@ -1,0 +1,45 @@
+services:
+  postgres:
+    image: postgres:15
+    restart: always
+    container_name: freelas-db
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: freelas
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build: ./backend
+    container_name: freelas-backend
+    restart: always
+    ports:
+      - "3001:3000"
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgres://root:1234@postgres:5432/freelas
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    command: npm run start:dev
+
+  frontend:
+    build: ./frontend
+    container_name: freelas-frontend
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    stdin_open: true
+    tty: true
+
+volumes:
+  postgres_data:
