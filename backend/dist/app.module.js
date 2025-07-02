@@ -11,12 +11,14 @@ const common_1 = require("@nestjs/common");
 const config_1 = require("@nestjs/config");
 const project_module_1 = require("./project/project.module");
 const prisma_module_1 = require("./prisma/prisma.module");
+const socket_gateway_1 = require("./socket/socket.gateway");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [config_1.ConfigModule.forRoot({ isGlobal: true }), project_module_1.ProjectModule, prisma_module_1.PrismaModule],
+        providers: [socket_gateway_1.SocketGateway],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map

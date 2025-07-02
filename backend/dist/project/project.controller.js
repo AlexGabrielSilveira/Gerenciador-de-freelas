@@ -24,6 +24,9 @@ let ProjectController = class ProjectController {
     async createProject(createProjectDto) {
         return await this.projectService.createProject(createProjectDto);
     }
+    async getProjects() {
+        return await this.projectService.getProjects();
+    }
 };
 exports.ProjectController = ProjectController;
 __decorate([
@@ -33,6 +36,12 @@ __decorate([
     __metadata("design:paramtypes", [project_dto_1.CreateProjectDto]),
     __metadata("design:returntype", Promise)
 ], ProjectController.prototype, "createProject", null);
+__decorate([
+    (0, common_1.Get)('all'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], ProjectController.prototype, "getProjects", null);
 exports.ProjectController = ProjectController = __decorate([
     (0, common_1.Controller)('project'),
     __metadata("design:paramtypes", [project_service_1.ProjectService])

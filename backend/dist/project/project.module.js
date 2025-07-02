@@ -11,6 +11,7 @@ const common_1 = require("@nestjs/common");
 const project_controller_1 = require("./project.controller");
 const project_service_1 = require("./project.service");
 const prisma_module_1 = require("../prisma/prisma.module");
+const socket_gateway_1 = require("../socket/socket.gateway");
 let ProjectModule = class ProjectModule {
 };
 exports.ProjectModule = ProjectModule;
@@ -18,7 +19,7 @@ exports.ProjectModule = ProjectModule = __decorate([
     (0, common_1.Module)({
         imports: [prisma_module_1.PrismaModule],
         controllers: [project_controller_1.ProjectController],
-        providers: [project_service_1.ProjectService],
+        providers: [project_service_1.ProjectService, socket_gateway_1.SocketGateway],
     })
 ], ProjectModule);
 //# sourceMappingURL=project.module.js.map

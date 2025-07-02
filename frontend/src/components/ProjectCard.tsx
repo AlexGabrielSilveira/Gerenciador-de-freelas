@@ -1,27 +1,25 @@
 
 import Button from "./Button";
-enum ProjectStatus {
-  started = 'started',
-  working = 'working',
-  completed = 'completed',
-  canceled = 'canceled',
-  finished = 'finished'
-}
+
 interface ProjectProps {
     name: string;
-    client: string;
-    status: ProjectStatus | 'started';
-    hourlyRate: number;
+    clientName: string;
+    clientEmail?: string;
+    description?: string;
+    status: 'started' | 'working' | 'completed' | 'canceled' | 'finished';
+    amountHourly: number;
     timeWorked: string;
 }
 
-function ProjectCard({ name, client, status, hourlyRate, timeWorked }: ProjectProps) {
+function ProjectCard({ name, clientName, status, amountHourly, timeWorked, description}: ProjectProps) {
   return (
-    <div className="bg-zinc-800 p-5 rounded-lg shadow-md flex flex-col gap-4 max-w-sm">
+    <div className="bg-zinc-800 p-5 rounded-lg shadow-md flex flex-col gap-4 max-w-sm m-4">
       <div className="flex justify-between items-start">
         <div>
           <h3 className="text-white text-lg font-semibold">{name}</h3>
-          <p className="text-zinc-400 text-sm">Cliente: {client}</p>
+          <p className="text-zinc-400 text-sm">clientName: {clientName}</p>
+          <br />
+          <p className="text-zinc-400 text-sm">{description}</p>
         </div>
         <span className={`text-xs font-semibold px-3 py-1 rounded-full ${
             status === 'working'
@@ -38,15 +36,14 @@ function ProjectCard({ name, client, status, hourlyRate, timeWorked }: ProjectPr
       </div>
       <div className="flex justify-between text-zinc-300 text-sm">
         <div>
-          <span className="block">R$ {hourlyRate}/h</span>
+          <span className="block">R$ {amountHourly}/h</span>
           <span className="block text-zinc-500 text-xs">Valor hora</span>
         </div>
         <div>
-          <span className="block">{timeWorked}</span>
+          <span className="block">{timeWorked}/h</span>
           <span className="block text-zinc-500 text-xs">Tempo trabalhado</span>
         </div>
       </div>
-
       <div className="flex gap-2 mt-2">
         {status === 'working' ? (
           <Button className="flex-1 bg-pink-600 hover:bg-pink-700 text-white text-sm py-1.5 rounded-md transition" text="⏸️ Pausar"/>

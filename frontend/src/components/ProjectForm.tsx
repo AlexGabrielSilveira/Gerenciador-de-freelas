@@ -3,6 +3,7 @@ import Button from "./Button";
 import Input from "./Input";
 import { API_URL } from "../config/config";
 import { useState } from "react";
+import { toast, Toaster } from "sonner";
 
 function ProjectForm() {
 
@@ -36,11 +37,11 @@ function ProjectForm() {
         timeWorked: parseFloat(formData.timeWorked.toString()),
         status: formData.status
       }) 
-      .then((response: any) => {
-        console.log("Projeto criado com sucesso:", response.data);
+      .then((response: any) => { 
+        toast.success("Projeto criado com sucesso!");
       })
       .catch((error: any) => {
-        console.error("Erro ao criar projeto:", error.response.data.message);
+        toast.error("Erro ao criar o projeto. Tente novamente.");
       });
   }
  

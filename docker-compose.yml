@@ -21,6 +21,5 @@ services:
       - backend
     volumes:
       - ./frontend:/app:cached
-      - /app/node_modules
     stdin_open: true
     tty: true

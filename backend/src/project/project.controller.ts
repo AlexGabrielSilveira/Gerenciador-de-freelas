@@ -10,4 +10,8 @@ export class ProjectController {
     async createProject(@Body() createProjectDto: CreateProjectDto) {
         return await this.projectService.createProject(createProjectDto);
     }
+    @Get('all')
+    async getProjects() {
+        return await this.projectService.getProjects();
+    }
 }

@@ -12,13 +12,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProjectService = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../prisma/prisma.service");
+const socket_gateway_1 = require("../socket/socket.gateway");
 let ProjectService = class ProjectService {
     prismaService;
-    constructor(prismaService) {
+    socketGateway;
+    constructor(prismaService, socketGateway) {
         this.prismaService = prismaService;
+        this.socketGateway = socketGateway;
     }
     async createProject(createProjectDto) {
-        await this.prismaService.project.create({
+        const project = await this.prismaService.project.create({
             data: {
                 name: createProjectDto.name,
                 description: createProjectDto.description,
@@ -29,14 +32,21 @@ let ProjectService = class ProjectService {
                 status: createProjectDto.status
             }
         });
-        return {
-            message: "Project created successfully"
-        };
+        if (project) {
+            return this.socketGateway.sendProjectMessage("success", "Project created successfully");
+        }
+        else {
+            return this.socketGateway.sendProjectMessage("error", "Project failed to create");
+        }
+    }
+    async getProjects() {
+        return await this.prismaService.project.findMany();
     }
 };
 exports.ProjectService = ProjectService;
 exports.ProjectService = ProjectService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [prisma_service_1.PrismaService])
+    __metadata("design:paramtypes", [prisma_service_1.PrismaService,
+        socket_gateway_1.SocketGateway])
 ], ProjectService);
 //# sourceMappingURL=project.service.js.map
