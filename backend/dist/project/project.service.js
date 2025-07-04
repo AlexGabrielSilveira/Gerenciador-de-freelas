@@ -23,9 +23,9 @@ let ProjectService = class ProjectService {
     async createProject(createProjectDto) {
         const project = await this.prismaService.project.create({
             data: {
-                name: createProjectDto.name,
-                description: createProjectDto.description,
-                clientName: createProjectDto.clientName,
+                name: createProjectDto.name.toLowerCase(),
+                description: createProjectDto.description?.toLowerCase(),
+                clientName: createProjectDto.clientName.toLowerCase(),
                 clientEmail: createProjectDto.clientEmail,
                 amountHourly: createProjectDto.amountHourly,
                 timeWorked: createProjectDto.timeWorked,
@@ -41,6 +41,26 @@ let ProjectService = class ProjectService {
     }
     async getProjects() {
         return await this.prismaService.project.findMany();
+    }
+    async updateProjectStatus(name, status) {
+        const projet = await this.prismaService.project.findUnique({
+            where: { name }
+        });
+        if (projet) {
+            const updatedProject = await this.prismaService.project.update({
+                where: { name },
+                data: { status }
+            });
+            if (updatedProject) {
+                this.socketGateway.sendProjectMessage("success", `Project status updated to ${status}`);
+                console.log(`Project status updated to ${status}`);
+                return updatedProject;
+            }
+        }
+        if (!projet) {
+            console.error(`Project with name ${name} not found`);
+            return this.socketGateway.sendProjectMessage("error", "Project not found");
+        }
     }
 };
 exports.ProjectService = ProjectService;

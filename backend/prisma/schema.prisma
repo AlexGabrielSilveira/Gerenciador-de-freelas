@@ -10,12 +10,12 @@ enum Status {
   STARTED
   WORKING
   COMPLETED
-  CANCELLED
+  CANCELED
   FINISHED
 }
 model Project {
   id          String   @id @default(uuid())
-  name        String
+  name        String    @unique
   description String?
   clientName  String
   clientEmail String

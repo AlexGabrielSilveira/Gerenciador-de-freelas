@@ -1,5 +1,5 @@
 import { Status } from "@prisma/client";
-import { IsEmail, IsEnum, isInt, IsNotEmpty, IsPositive, IsString, Length, Max, MinLength } from "class-validator";
+import { IsEmail, IsEnum, isInt, IsNotEmpty, IsPositive, IsString, Length, Max, Min, MinLength } from "class-validator";
 
 export class CreateProjectDto {
     @IsString()
@@ -25,7 +25,7 @@ export class CreateProjectDto {
     @IsNotEmpty()
     amountHourly: number;
 
-    @IsPositive()
+    @Min(0)
     timeWorked: number;
 
     @IsEnum(Status)

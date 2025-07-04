@@ -16,6 +16,7 @@ exports.ProjectController = void 0;
 const common_1 = require("@nestjs/common");
 const project_service_1 = require("./project.service");
 const project_dto_1 = require("./dto/project.dto");
+const client_1 = require("@prisma/client");
 let ProjectController = class ProjectController {
     projectService;
     constructor(projectService) {
@@ -26,6 +27,10 @@ let ProjectController = class ProjectController {
     }
     async getProjects() {
         return await this.projectService.getProjects();
+    }
+    async updateProjectStatus(name, status) {
+        const parsedStatus = client_1.Status[status.toUpperCase()];
+        return await this.projectService.updateProjectStatus(name, parsedStatus);
     }
 };
 exports.ProjectController = ProjectController;
@@ -42,6 +47,14 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], ProjectController.prototype, "getProjects", null);
+__decorate([
+    (0, common_1.Put)(':name/status/:status'),
+    __param(0, (0, common_1.Param)('name')),
+    __param(1, (0, common_1.Param)('status')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:returntype", Promise)
+], ProjectController.prototype, "updateProjectStatus", null);
 exports.ProjectController = ProjectController = __decorate([
     (0, common_1.Controller)('project'),
     __metadata("design:paramtypes", [project_service_1.ProjectService])

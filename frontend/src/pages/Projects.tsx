@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import Header from "../components/Header";
-import ProjectCard from "../components/ProjectCard";
+import ProjectCard, { ProjectStatus } from "../components/ProjectCard";
 import axios from "axios";
 import { API_URL } from "../config/config";
+import { Toaster } from "sonner";
 
 interface ProjectInterface{
     name: string;
@@ -10,7 +11,7 @@ interface ProjectInterface{
     clientName: string;
     clientEmail: string;
     amountHourly: number;
-    status: 'started' | 'working' | 'completed' | 'canceled' | 'finished';
+    status: ProjectStatus;
     timeWorked: string;
 }
 
@@ -32,19 +33,20 @@ function Projects() {
     return (
         <>
         <Header />  
-        <div className="flex flex-col items-center justify-center h-screen">
-            {projects.map((project) => (
-                <ProjectCard
-                    name={project.name}
-                    description={project.description}
-                    clientName={project.clientName}
-                    clientEmail={project.clientEmail}
-                    amountHourly={project.amountHourly}
-                    status={project.status}
-                    timeWorked={project.timeWorked}
-                    />
-            ))}
-        </div>
+        <Toaster position="top-right" richColors closeButton />
+            <div className="flex flex-wrap items-center justify-center h-screen">
+                {projects.map((project) => (
+                    <ProjectCard
+                        name={project.name}
+                        description={project.description}
+                        clientName={project.clientName}
+                        clientEmail={project.clientEmail}
+                        amountHourly={project.amountHourly}
+                        status={project.status}
+                        timeWorked={project.timeWorked}
+                        />
+                ))}
+            </div>
         </>
     );
 }

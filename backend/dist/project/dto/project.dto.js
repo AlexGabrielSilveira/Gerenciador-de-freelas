@@ -51,7 +51,7 @@ __decorate([
     __metadata("design:type", Number)
 ], CreateProjectDto.prototype, "amountHourly", void 0);
 __decorate([
-    (0, class_validator_1.IsPositive)(),
+    (0, class_validator_1.Min)(0),
     __metadata("design:type", Number)
 ], CreateProjectDto.prototype, "timeWorked", void 0);
 __decorate([
