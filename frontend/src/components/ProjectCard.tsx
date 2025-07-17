@@ -2,9 +2,8 @@ import axios from "axios";
 import Button from "./Button";
 import { API_URL } from "../config/config";
 import { toast } from "sonner";
-import { use, useState } from "react";
-import { start } from "repl";
-
+import { useEffect, useState } from "react";
+import Timer from "./Timer";
 export enum ProjectStatus {
   STARTED,
   WORKING,
@@ -24,9 +23,13 @@ interface ProjectProps {
 
 function ProjectCard({ name, clientName, status, amountHourly, timeWorked, description}: ProjectProps) {
   const [projectStatus,setProjectStatus] = useState<ProjectStatus>(status);
-  const [startProject, setStartProject] = useState<boolean>(false);
-
+  const [startTimer, setStartTimer] = useState<boolean>(false);
   const projectStatusString = projectStatus.toString().toUpperCase();
+
+  useEffect(() => {
+    saveTimer();
+  }, [projectStatus]);
+
   function handleStatusChange(status: string){
     const parseName = name.toLowerCase();
 
@@ -35,16 +38,23 @@ function ProjectCard({ name, clientName, status, amountHourly, timeWorked, descr
       setProjectStatus(response.data.status);
       toast.success(`Status atualizado para ${status}`);
 
-      if(projectStatusString === "WORKING") {
-        setStartProject(true);
+      if ('working' === status) {
+        setStartTimer(true);
+      } else {
+        setStartTimer(false);
       }
     })
     .catch(error => {
       toast.error("Erro ao atualizar o status do projeto. Tente novamente.");
     })
-
   }
-  console.log(startProject);
+  function saveTimer() {
+    if(projectStatusString === 'FINISHED') { 
+      console.log("Timer saved");
+      //fazer um put para o endpoint de update da hora trabalhada.
+    }
+  
+  }
   return (
     <div className="bg-zinc-800 p-5 rounded-lg shadow-md flex flex-col gap-4 max-w-sm m-4">
       <div className="flex justify-between items-start">
@@ -55,11 +65,11 @@ function ProjectCard({ name, clientName, status, amountHourly, timeWorked, descr
           <p className="text-zinc-400 text-sm">{description}</p>
         </div>
         <span className={`text-xs font-semibold px-3 py-1 rounded-full ${
-              projectStatusString == "WORKING"
+              projectStatusString === "WORKING"
               ? 'bg-yellow-500/20 text-yellow-400'
-              : projectStatusString == "COMPLETED"
+              : projectStatusString === "COMPLETED"
               ? 'bg-green-500/20 text-green-400'
-              : projectStatusString == "CANCELED"
+              : projectStatusString === "CANCELED"
               ? 'bg-red-500/20 text-red-400'
               : 'bg-zinc-600 text-zinc-200'
           }`}
@@ -74,12 +84,13 @@ function ProjectCard({ name, clientName, status, amountHourly, timeWorked, descr
         </div>
         <div>
           <span className="block">{timeWorked}/h</span>
+          {startTimer && <Timer />}
           <span className="block text-zinc-500 text-xs">Tempo trabalhado</span>
         </div>
       </div>
       <div className="flex gap-2 mt-2">
-        {projectStatusString === "WORKING" && startProject == true ? (
-          <Button className="flex-1 bg-pink-600 hover:bg-pink-700 text-white text-sm py-1.5 rounded-md transition" text="⏸️ Pausar" onClick={() => setStartProject(!startProject)}/>
+        {projectStatusString === "WORKING" ? (
+          <Button className="flex-1 bg-pink-600 hover:bg-pink-700 text-white text-sm py-1.5 rounded-md transition" text="⏸️ Pausar" />
         ) : (
           <Button className="flex-1 bg-green-600 hover:bg-green-700 text-white text-sm py-1.5 rounded-md transition" text="▶️ Iniciar" onClick={() => handleStatusChange('working')}/>
         )}

@@ -5,26 +5,26 @@ export declare class ProjectController {
     constructor(projectService: ProjectService);
     createProject(createProjectDto: CreateProjectDto): Promise<void>;
     getProjects(): Promise<{
-        description: string | null;
-        id: string;
         name: string;
+        description: string | null;
         clientName: string;
         clientEmail: string;
         amountHourly: number;
         timeWorked: number;
         status: import(".prisma/client").$Enums.Status;
+        id: string;
         createdAt: Date;
         updatedAt: Date;
     }[]>;
     updateProjectStatus(name: string, status: string): Promise<void | {
-        description: string | null;
-        id: string;
         name: string;
+        description: string | null;
         clientName: string;
         clientEmail: string;
         amountHourly: number;
         timeWorked: number;
         status: import(".prisma/client").$Enums.Status;
+        id: string;
         createdAt: Date;
         updatedAt: Date;
     }>;
